@@ -1581,129 +1581,68 @@ function mostrarCircuitoEnTarget(
    ============================================================ */
 
 function configurarTargets() {
-
   const configuraciones = [
-
     {
-      id:
-        "target-basico",
-
-      tipo:
-        "basico"
-
+      id: "target-basico",
+      tipo: "basico"
     },
-
-
     {
-      id:
-        "target-serie",
-
-      tipo:
-        "serie"
-
+      id: "target-serie",
+      tipo: "serie"
     },
-
-
     {
-      id:
-        "target-paralelo",
-
-      tipo:
-        "paralelo"
-
+      id: "target-paralelo",
+      tipo: "paralelo"
     }
-
   ];
 
+  configuraciones.forEach((config) => {
+    const target = document.getElementById(config.id);
 
-  configuraciones.forEach(
-    (config) => {
+    if (!target) {
+      console.warn("No se encontró el target:", config.id);
+      return;
+    }
 
-      const target =
-        document.getElementById(
-          config.id
-        );
+    target.addEventListener("targetFound", () => {
+      console.log("Marcador encontrado:", config.tipo);
 
-
-      if (!target) {
-
-        console.warn(
-          "No se encontró el target:",
-          config.id
-        );
-
-        return;
-
+      // Ocultar el botón de iniciar si la cámara ya detectó el marcador
+      const boton = document.getElementById("btn-iniciar-ar");
+      if (boton) {
+        boton.style.display = "none";
       }
 
+      // Asegurar que las leyendas superiores sean visibles
+      const info = document.getElementById("panel-info");
+      if (info) {
+        info.style.display = "block";
+      }
 
-      target.addEventListener(
-        "targetFound",
-        () => {
+      const estado = document.getElementById("estado-ar");
+      if (estado) {
+        estado.style.display = "block";
+      }
 
-          console.log(
-            "Marcador encontrado:",
-            config.tipo
-          );
+      mostrarCircuitoEnTarget(config.tipo, target);
+    });
 
+    target.addEventListener("targetLost", () => {
+      console.log("Marcador perdido:", config.tipo);
 
-          mostrarCircuitoEnTarget(
-            config.tipo,
-            target
-          );
+      if (montajeActivo && montajeActivo.target === target) {
+        arrastreActivo = null;
+        ocultarBandejaComponentes();
+      }
 
-        }
-      );
+      const estado = document.getElementById("estado-ar");
 
-
-      target.addEventListener(
-        "targetLost",
-        () => {
-
-          console.log(
-            "Marcador perdido:",
-            config.tipo
-          );
-
-
-          if (
-            montajeActivo &&
-            montajeActivo.target ===
-            target
-          ) {
-
-            arrastreActivo =
-              null;
-
-            ocultarBandejaComponentes();
-
-          }
-
-
-          const estado =
-            document.getElementById(
-              "estado-ar"
-            );
-
-
-          if (estado) {
-
-            estado.classList.remove(
-              "detectado"
-            );
-
-
-            estado.innerText =
-              "Marcador fuera de vista. Volvé a enfocarlo para continuar.";
-
-          }
-
-        }
-      );
-
-    }
-  );
-
+      if (estado) {
+        estado.classList.remove("detectado");
+        estado.innerText = "Marcador fuera de vista. Volvé a enfocarlo para continuar.";
+      }
+    });
+  });
 }
 
 
