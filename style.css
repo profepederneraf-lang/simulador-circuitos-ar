@@ -46,6 +46,31 @@ video {
 
 /* Asegurar que el panel de lámparas e interfaz queden por encima del canvas 3D */
 #overlay-ui, .ui-container, #lamparas-tray, button {
+/* Corrección de fondo de cámara y capas */
+video {
   position: fixed !important;
-  z-index: 1000 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+  z-index: 0 !important;
+}
+
+canvas.a-canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1 !important;
+}
+
+/* Asegurar que la bandeja de lámparas e interfaz queden por encima del canvas 3D */
+#bandeja-componentes {
+  z-index: 10000 !important;
+}
+
+#bandeja-componentes.visible {
+  display: flex !important;
 }
