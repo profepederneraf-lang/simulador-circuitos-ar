@@ -1657,18 +1657,20 @@ async function iniciarAR() {
       "escena-ar"
     );
 
+  // Asegura el fondo transparente en el renderizador de Three.js / A-Frame
+  if (scene && scene.renderer) {
+    scene.renderer.setClearColor(0x000000, 0);
+  }
 
   const boton =
     document.getElementById(
       "btn-iniciar-ar"
     );
 
-
   const info =
     document.getElementById(
       "panel-info"
     );
-
 
   const estado =
     document.getElementById(
