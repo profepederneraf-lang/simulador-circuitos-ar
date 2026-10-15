@@ -1,39 +1,41 @@
-/* ============================================================
+/* =======================================================
    CORRECCIÓN DEL VIDEO DE CÁMARA DE MINDAR
-   ============================================================ */
+   ======================================================= */
 
 body {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: transparent;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: transparent !important;
+    background-color: transparent !important;
 }
 
 a-scene {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 1 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 1 !important;
+    background: transparent !important;
+    background-color: transparent !important;
 }
 
 /* Video generado por MindAR */
 video {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    z-index: -1 !important;
+    background: transparent !important;
+    background-color: transparent !important;
 }
-
 /* El canvas AR debe quedar encima del video */
 .a-canvas {
   position: fixed !important;
