@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Simulador de Circuitos Educativo en AR</title>
+
+  <link rel="stylesheet" href="./style.css?v=arfix2" />
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+  <!-- MindAR -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+</head>
+
+<body>
+
+  <!-- Estado -->
+  <div id="estado-ar" class="estado">
+    Colocá uno de los marcadores sobre una superficie plana y presioná “Activar cámara”.
+  </div>
+
+  <!-- Activación de cámara -->
+  <button id="btn-iniciar-ar" class="btn-iniciar" type="button">
+    📷 Activar cámara
+  </button>
+
+  <!-- Información -->
+  <div id="panel-info">
+    Esperando que se active la cámara...
+  </div>
+
+  <!-- Bandeja lateral: aparece únicamente para Serie y Paralelo -->
+  <div id="bandeja-componentes" aria-hidden="true">
+    <div class="bandeja-titulo">💡 LÁMPARAS</div>
+
+    <button class="pieza-arrastrable" data-lamp-id="1" type="button">
+      <span class="pieza-icono">💡</span>
+      <span class="pieza-texto">Lámpara 1</span>
+    </button>
+
+    <button class="pieza-arrastrable" data-lamp-id="2" type="button">
+      <span class="pieza-icono">💡</span>
+      <span class="pieza-texto">Lámpara 2</span>
+    </button>
+  </div>
+
+  <!-- =====================================================
+       ESCENA AR
+       Target 0 = Básico
+       Target 1 = Serie
+       Target 2 = Paralelo
+       ===================================================== -->
+  <a-scene
+    id="escena-ar"
+    embedded
+    mindar-image="
+      imageTargetSrc: ./assets/targets.mind;
+      autoStart: false;
+      maxTrack: 1;
+      uiLoading: no;
+      uiScanning: no;
+      uiError: no;
+    "
+    color-space="sRGB"
+    renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true;"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+  >
+
+    <a-assets></a-assets>
+
+    <a-camera
+      position="0 0 0"
+      look-controls="enabled: false"
+      wasd-controls="enabled: false">
+    </a-camera>
+
+    <a-entity light="type: ambient; color: #FFF; intensity: 1.5"></a-entity>
+
+    <a-entity
+      light="type: directional; color: #FFF; intensity: 1.8"
+      position="1 4 2">
+    </a-entity>
+
+
+    <!-- =================================================
+         TARGET 0 - BÁSICO
+         ================================================= -->
+
+    <a-entity
+      id="target-basico"
+      mindar-image-target="targetIndex: 0">
+
+      <a-entity
+        class="mesa-virtual"
+        rotation="0 0 90"
+        position="0 0 0">
+
+        <a-box
+          position="0 0 0"
+          width="1.4"
+          height="0.08"
+          depth="0.9"
+          material="color: #7c3f00; roughness: 0.6">
+        </a-box>
+
+        <a-box
+          position="0 0.05 0"
+          width="1.05"
+          height="0.02"
+          depth="0.75"
+          material="color: #fcfcfc; roughness: 0.1">
+        </a-box>
+
+        <a-entity class="componentes-target"></a-entity>
+
+      </a-entity>
+
+    </a-entity>
+
+
+    <!-- =================================================
+         TARGET 1 - SERIE
+         ================================================= -->
+
+    <a-entity
+      id="target-serie"
+      mindar-image-target="targetIndex: 1">
+
+      <a-entity
+        class="mesa-virtual"
+        rotation="0 0 90"
+        position="0 0 0">
+
+        <a-box
+          position="0 0 0"
+          width="1.4"
+          height="0.08"
+          depth="0.9"
+          material="color: #7c3f00; roughness: 0.6">
+        </a-box>
+
+        <a-box
+          position="0 0.05 0"
+          width="1.05"
+          height="0.02"
+          depth="0.75"
+          material="color: #fcfcfc; roughness: 0.1">
+        </a-box>
+
+        <a-entity class="componentes-target"></a-entity>
+
+      </a-entity>
+
+    </a-entity>
+
+
+    <!-- =================================================
+         TARGET 2 - PARALELO
+         ================================================= -->
+
+    <a-entity
+      id="target-paralelo"
+      mindar-image-target="targetIndex: 2">
+
+      <a-entity
+        class="mesa-virtual"
+        rotation="0 0 90"
+        position="0 0 0">
+
+        <a-box
+          position="0 0 0"
+          width="1.4"
+          height="0.08"
+          depth="0.9"
+          material="color: #7c3f00; roughness: 0.6">
+        </a-box>
+
+        <a-box
+          position="0 0.05 0"
+          width="1.05"
+          height="0.02"
+          depth="0.75"
+          material="color: #fcfcfc; roughness: 0.1">
+        </a-box>
+
+        <a-entity class="componentes-target"></a-entity>
+
+      </a-entity>
+
+    </a-entity>
+
+  </a-scene>
+
+  <script src="./script.js?v=arfix2"></script>
+
+</body>
+</html>
