@@ -1300,76 +1300,93 @@ function comprobarMontaje() {
 
 function configurarArrastreComponentes() {
 
-  document
-    .querySelectorAll(
-      ".pieza-arrastrable"
-    )
-    .forEach(
-      (pieza) => {
+  const piezas = document.querySelectorAll(".pieza-arrastrable");
 
-        pieza.addEventListener(
-          "pointerdown",
-          (event) => {
+  piezas.forEach((pieza) => {
 
-            iniciarArrastreLampara(
-              pieza.dataset.lampId,
-              event
-            );
+    /* Evita que el navegador interprete el toque
+       como selección, desplazamiento o gesto */
+    pieza.style.touchAction = "none";
+    pieza.style.userSelect = "none";
+    pieza.style.webkitUserSelect = "none";
 
-          }
-        );
-
-      }
-    );
-
-
-  window.addEventListener(
-    "pointermove",
-    (event) => {
-
-      if (!arrastreActivo) return;
-
+    pieza.addEventListener("pointerdown", (event) => {
 
       event.preventDefault();
+      event.stopPropagation();
+
+      const id = pieza.dataset.lampId;
+
+      if (!id) return;
+
+      iniciarArrastreLampara(id, event);
+
+    }, { passive: false });
+
+  });
 
 
-      moverLampara(
-        event
-      );
+  /* ==========================================================
+     MOVER LA LÁMPARA
+     ========================================================== */
 
-    },
-    {
-      passive: false
+  window.addEventListener("pointermove", (event) => {
+
+    if (!arrastreActivo) return;
+
+    if (
+      event.pointerId !== arrastreActivo.pointerId
+    ) {
+      return;
     }
-  );
+
+    event.preventDefault();
+
+    moverLampara(event);
+
+  }, { passive: false });
 
 
-  window.addEventListener(
-    "pointerup",
-    (event) => {
+  /* ==========================================================
+     SOLTAR LA LÁMPARA
+     ========================================================== */
 
-      finalizarArrastreLampara(
-        event
-      );
+  window.addEventListener("pointerup", (event) => {
 
+    if (!arrastreActivo) return;
+
+    if (
+      event.pointerId !== arrastreActivo.pointerId
+    ) {
+      return;
     }
-  );
+
+    event.preventDefault();
+
+    finalizarArrastreLampara(event);
+
+  }, { passive: false });
 
 
-  window.addEventListener(
-    "pointercancel",
-    (event) => {
+  /* ==========================================================
+     CANCELAR ARRASTRE
+     ========================================================== */
 
-      finalizarArrastreLampara(
-        event
-      );
+  window.addEventListener("pointercancel", (event) => {
 
+    if (!arrastreActivo) return;
+
+    if (
+      event.pointerId !== arrastreActivo.pointerId
+    ) {
+      return;
     }
-  );
+
+    finalizarArrastreLampara(event);
+
+  });
 
 }
-
-
 /* ============================================================
    INFORMACIÓN DE CIRCUITOS
    ============================================================ */
