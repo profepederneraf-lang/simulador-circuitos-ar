@@ -1,75 +1,496 @@
-/* =======================================================
-   CORRECCIÓN DEL VIDEO DE CÁMARA DE MINDAR
-   ======================================================= */
-
+html,
 body {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background: transparent !important;
-    background-color: transparent !important;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  font-family: Arial, sans-serif;
+
+  /* Fondo transparente para permitir ver la cámara de MindAR */
+  background: transparent !important;
+  background-color: transparent !important;
+
 }
+
+
+/* ============================================================
+   ESCENA AR
+   ============================================================ */
 
 a-scene {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    z-index: 1 !important;
-    background: transparent !important;
-    background-color: transparent !important;
-}
 
-/* Video generado por MindAR */
-video {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    object-fit: cover !important;
-    z-index: -1 !important;
-    background: transparent !important;
-    background-color: transparent !important;
-}
-/* El canvas AR debe quedar encima del video */
-.a-canvas {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
+
+  inset: 0;
+
   width: 100vw !important;
   height: 100vh !important;
-  z-index: 1 !important;
+
+  z-index: 1;
+
+  /* La escena no debe generar un fondo negro */
+  background: transparent !important;
+  background-color: transparent !important;
+
 }
 
-/* Asegurar que el panel de lámparas e interfaz queden por encima del canvas 3D */
-#overlay-ui, .ui-container, #lamparas-tray, button {
-/* Corrección de fondo de cámara y capas */
-video {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover !important;
-  z-index: 0 !important;
+
+/* ============================================================
+   ESTADO SUPERIOR
+   ============================================================ */
+
+.estado {
+
+  position: fixed;
+
+  top:
+    max(
+      12px,
+      env(safe-area-inset-top)
+    );
+
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 20;
+
+  width:
+    min(90vw, 520px);
+
+  box-sizing:
+    border-box;
+
+  padding:
+    10px 14px;
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(0, 0, 0, 0.78);
+
+  color:
+    #fff;
+
+  font-size:
+    14px;
+
+  text-align:
+    center;
+
 }
 
-canvas.a-canvas {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 1 !important;
+
+.estado.activo {
+
+  background:
+    rgba(0, 90, 160, 0.85);
+
 }
 
-/* Asegurar que la bandeja de lámparas e interfaz queden por encima del canvas 3D */
-#bandeja-componentes,
-#bandeja-componentes .pieza-arrastrable {
-    touch-action: none;
+
+.estado.detectado {
+
+  background:
+    rgba(0, 140, 75, 0.88);
+
+}
+
+
+.estado.error {
+
+  background:
+    rgba(170, 35, 35, 0.92);
+
+}
+
+
+/* ============================================================
+   BOTÓN ACTIVAR CÁMARA
+   ============================================================ */
+
+.btn-iniciar {
+
+  position: fixed;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 30;
+
+  border: none;
+
+  border-radius:
+    14px;
+
+  padding:
+    18px 28px;
+
+  background:
+    #00a95c;
+
+  color:
+    #fff;
+
+  font-size:
+    18px;
+
+  font-weight:
+    bold;
+
+  box-shadow:
+    0 5px 20px
+    rgba(0, 0, 0, 0.35);
+
+  cursor:
+    pointer;
+
+}
+
+
+.btn-iniciar:disabled {
+
+  opacity:
+    0.7;
+
+}
+
+
+/* ============================================================
+   INFORMACIÓN
+   ============================================================ */
+
+#panel-info {
+
+  position: fixed;
+
+  top:
+    70px;
+
+  left:
+    14px;
+
+  right:
+    14px;
+
+  z-index:
+    20;
+
+  box-sizing:
+    border-box;
+
+  padding:
+    12px 16px;
+
+  border-radius:
+    9px;
+
+  background:
+    rgba(255, 255, 255, 0.94);
+
+  color:
+    #333;
+
+  font-size:
+    14px;
+
+  font-weight:
+    bold;
+
+  text-align:
+    center;
+
+  box-shadow:
+    0 3px 8px
+    rgba(0, 0, 0, 0.2);
+
+}
+
+
+/* ============================================================
+   BANDEJA LATERAL
+   ============================================================ */
+
+#bandeja-componentes {
+
+  position: fixed;
+
+  top:
+    50%;
+
+  right:
+    8px;
+
+  transform:
+    translateY(-50%);
+
+  z-index:
+    50;
+
+  width:
+    88px;
+
+  padding:
+    8px;
+
+  box-sizing:
+    border-box;
+
+  display:
+    none;
+
+  flex-direction:
+    column;
+
+  gap:
+    8px;
+
+  background:
+    rgba(0, 0, 0, 0.84);
+
+  border-radius:
+    12px;
+
+  box-shadow:
+    0 4px 16px
+    rgba(0, 0, 0, 0.4);
+
+  touch-action:
+    none;
+
+  user-select:
+    none;
+
+  -webkit-user-select:
+    none;
+
+}
+
+
+#bandeja-componentes.visible {
+
+  display:
+    flex;
+
+}
+
+
+.bandeja-titulo {
+
+  color:
+    #fff;
+
+  font-size:
+    10px;
+
+  font-weight:
+    bold;
+
+  text-align:
+    center;
+
+  padding-bottom:
+    3px;
+
+}
+
+
+/* ============================================================
+   PIEZAS ARRASTRABLES
+   ============================================================ */
+
+.pieza-arrastrable {
+
+  width:
+    72px;
+
+  min-height:
+    66px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.3);
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  color:
+    #222;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    3px;
+
+  padding:
+    5px;
+
+  box-sizing:
+    border-box;
+
+  cursor:
+    grab;
+
+  touch-action:
+    none;
+
+  user-select:
+    none;
+
+  -webkit-user-select:
+    none;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+}
+
+
+.pieza-arrastrable * {
+
+  pointer-events:
+    none;
+
+}
+
+
+.pieza-arrastrable:active {
+
+  cursor:
+    grabbing;
+
+  transform:
+    scale(0.96);
+
+}
+
+
+.pieza-icono {
+
+  font-size:
+    26px;
+
+  line-height:
+    1;
+
+}
+
+
+.pieza-texto {
+
+  font-size:
+    9px;
+
+  font-weight:
+    bold;
+
+}
+
+
+/* ============================================================
+   TOUCH
+   ============================================================ */
+
+button {
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+}
+
+
+body {
+
+  touch-action:
+    manipulation;
+
+}
+
+
+/* ============================================================
+   CELULARES
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+  #panel-info {
+
+    top:
+      65px;
+
+    left:
+      10px;
+
+    right:
+      10px;
+
+    font-size:
+      13px;
+
+  }
+
+
+  #bandeja-componentes {
+
+    right:
+      5px;
+
+    width:
+      78px;
+
+    padding:
+      6px;
+
+  }
+
+
+  .pieza-arrastrable {
+
+    width:
+      66px;
+
+    min-height:
+      62px;
+
+  }
+
+
+  .pieza-icono {
+
+    font-size:
+      24px;
+
+  }
+
+
+  .pieza-texto {
+
+    font-size:
+      8px;
+
+  }
+
 }
