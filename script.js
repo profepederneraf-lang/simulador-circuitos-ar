@@ -22,7 +22,6 @@ let montajeActivo = null;
 let arrastreActivo = null;
 
 const CONFIG_MONTAJE = {
-
   serie: {
     slots: [
       { id: "s1", x: -0.06, z: 0 },
@@ -36,12 +35,12 @@ const CONFIG_MONTAJE = {
       { id: "p2", x: 0.22, z: 0.22 }
     ]
   }
-
 };
 
 
-/* Herramientas THREE usadas para convertir el dedo
-   en una posición sobre la mesa AR. */
+/* ============================================================
+   HERRAMIENTAS THREE
+   ============================================================ */
 
 const raycasterAR = new THREE.Raycaster();
 const punteroAR = new THREE.Vector2();
@@ -58,9 +57,7 @@ function limpiarMesa() {
   document
     .querySelectorAll(".componentes-target")
     .forEach((contenedor) => {
-
       contenedor.innerHTML = "";
-
     });
 
   circuitoActual = null;
@@ -69,16 +66,12 @@ function limpiarMesa() {
 
   ocultarBandejaComponentes();
 
-  const info =
-    document.getElementById("panel-info");
+  const info = document.getElementById("panel-info");
 
   if (info) {
-
     info.innerText =
       "Apuntá a uno de los marcadores para visualizar el circuito.";
-
   }
-
 }
 
 
@@ -99,7 +92,6 @@ function crearLED(x, y, z, colorHex) {
         metalness: 0.5">
     </a-cylinder>
 
-
     <a-cylinder
       position="${x} ${y + 0.05} ${z}"
       radius="0.048"
@@ -112,7 +104,6 @@ function crearLED(x, y, z, colorHex) {
         transparent: true;
         opacity: 0.95">
     </a-cylinder>
-
 
     <a-sphere
       position="${x} ${y + 0.085} ${z}"
@@ -128,7 +119,6 @@ function crearLED(x, y, z, colorHex) {
     </a-sphere>
 
   `;
-
 }
 
 
@@ -150,7 +140,6 @@ function circuitoBasico() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.28 0.15 0"
       width="0.05"
@@ -161,7 +150,6 @@ function circuitoBasico() {
         metalness: 0.8">
     </a-box>
 
-
     <a-box
       position="-0.52 0.15 0"
       width="0.05"
@@ -170,7 +158,6 @@ function circuitoBasico() {
       material="
         color: #212121">
     </a-box>
-
 
     <a-box
       position="-0.12 0.14 0"
@@ -182,7 +169,6 @@ function circuitoBasico() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.12 0.21 0"
       width="0.08"
@@ -193,14 +179,12 @@ function circuitoBasico() {
         metalness: 0.6">
     </a-box>
 
-
     ${crearLED(
       0.28,
       0.08,
       0,
       "#00e676"
     )}
-
 
     <a-box
       position="-0.20 0.07 0"
@@ -212,7 +196,6 @@ function circuitoBasico() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="0.08 0.07 0"
       width="0.20"
@@ -222,7 +205,6 @@ function circuitoBasico() {
         color: red;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="-0.12 0.067 0.26"
@@ -234,7 +216,6 @@ function circuitoBasico() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="0.28 0.067 0.13"
       width="0.022"
@@ -244,7 +225,6 @@ function circuitoBasico() {
         color: black;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="-0.52 0.067 0.13"
@@ -257,7 +237,6 @@ function circuitoBasico() {
     </a-box>
 
   `;
-
 }
 
 
@@ -282,7 +261,6 @@ function crearZocaloLampara(x, z, id) {
     </a-ring>
 
   `;
-
 }
 
 
@@ -304,7 +282,6 @@ function circuitoSerie() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.28 0.15 0"
       width="0.05"
@@ -315,7 +292,6 @@ function circuitoSerie() {
         metalness: 0.8">
     </a-box>
 
-
     <a-box
       position="-0.52 0.15 0"
       width="0.05"
@@ -324,7 +300,6 @@ function circuitoSerie() {
       material="
         color: #212121">
     </a-box>
-
 
     <a-box
       position="-0.17 0.07 0"
@@ -336,7 +311,6 @@ function circuitoSerie() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="0.11 0.07 0"
       width="0.18"
@@ -346,7 +320,6 @@ function circuitoSerie() {
         color: red;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="-0.12 0.067 0.28"
@@ -358,7 +331,6 @@ function circuitoSerie() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="0.28 0.067 0.14"
       width="0.022"
@@ -368,7 +340,6 @@ function circuitoSerie() {
         color: black;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="-0.52 0.067 0.14"
@@ -380,13 +351,11 @@ function circuitoSerie() {
         roughness: 0.2">
     </a-box>
 
-
     ${crearZocaloLampara(
       -0.06,
       0,
       "s1"
     )}
-
 
     ${crearZocaloLampara(
       0.28,
@@ -395,7 +364,6 @@ function circuitoSerie() {
     )}
 
   `;
-
 }
 
 
@@ -417,7 +385,6 @@ function circuitoParalelo() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.28 0.15 0"
       width="0.05"
@@ -428,7 +395,6 @@ function circuitoParalelo() {
         metalness: 0.8">
     </a-box>
 
-
     <a-box
       position="-0.52 0.15 0"
       width="0.05"
@@ -437,7 +403,6 @@ function circuitoParalelo() {
       material="
         color: #212121">
     </a-box>
-
 
     <a-box
       position="-0.03 0.07 -0.22"
@@ -449,7 +414,6 @@ function circuitoParalelo() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.15 0.067 0.22"
       width="0.76"
@@ -459,7 +423,6 @@ function circuitoParalelo() {
         color: black;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="0.22 0.07 -0.11"
@@ -471,7 +434,6 @@ function circuitoParalelo() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="0.22 0.067 0.11"
       width="0.022"
@@ -481,7 +443,6 @@ function circuitoParalelo() {
         color: black;
         roughness: 0.2">
     </a-box>
-
 
     <a-box
       position="-0.28 0.07 -0.11"
@@ -493,7 +454,6 @@ function circuitoParalelo() {
         roughness: 0.2">
     </a-box>
 
-
     <a-box
       position="-0.52 0.067 0.11"
       width="0.022"
@@ -504,13 +464,11 @@ function circuitoParalelo() {
         roughness: 0.2">
     </a-box>
 
-
     ${crearZocaloLampara(
       0.22,
       -0.22,
       "p1"
     )}
-
 
     ${crearZocaloLampara(
       0.22,
@@ -519,7 +477,6 @@ function circuitoParalelo() {
     )}
 
   `;
-
 }
 
 
@@ -530,34 +487,27 @@ function circuitoParalelo() {
 function crearLamparaInteractiva(id) {
 
   const lampara =
-    document.createElement(
-      "a-entity"
-    );
-
+    document.createElement("a-entity");
 
   lampara.setAttribute(
     "class",
     "lampara-interactiva"
   );
 
-
   lampara.setAttribute(
     "data-lamp-id",
     String(id)
   );
-
 
   lampara.setAttribute(
     "data-slot-id",
     ""
   );
 
-
   lampara.setAttribute(
     "position",
     "0 0.08 0"
   );
-
 
   lampara.innerHTML = `
 
@@ -571,7 +521,6 @@ function crearLamparaInteractiva(id) {
         metalness: 0.5">
     </a-cylinder>
 
-
     <a-cylinder
       class="lampara-bombilla"
       position="0 0.05 0"
@@ -583,7 +532,6 @@ function crearLamparaInteractiva(id) {
         emissiveIntensity: 0;
         roughness: 0.15">
     </a-cylinder>
-
 
     <a-sphere
       class="lampara-bombilla-superior"
@@ -599,9 +547,7 @@ function crearLamparaInteractiva(id) {
 
   `;
 
-
   return lampara;
-
 }
 
 
@@ -616,32 +562,25 @@ function mostrarBandejaComponentes(tipo) {
       "bandeja-componentes"
     );
 
-
   if (!bandeja) return;
-
 
   if (
     tipo === "serie" ||
     tipo === "paralelo"
   ) {
 
-    bandeja.classList.add(
-      "visible"
-    );
+    bandeja.classList.add("visible");
 
     bandeja.setAttribute(
       "aria-hidden",
       "false"
     );
 
-  }
-
-  else {
+  } else {
 
     ocultarBandejaComponentes();
 
   }
-
 }
 
 
@@ -652,20 +591,14 @@ function ocultarBandejaComponentes() {
       "bandeja-componentes"
     );
 
-
   if (!bandeja) return;
 
-
-  bandeja.classList.remove(
-    "visible"
-  );
-
+  bandeja.classList.remove("visible");
 
   bandeja.setAttribute(
     "aria-hidden",
     "true"
   );
-
 }
 
 
@@ -682,7 +615,6 @@ function iniciarMontaje(
   const config =
     CONFIG_MONTAJE[tipo];
 
-
   if (!config) {
 
     montajeActivo = null;
@@ -690,18 +622,14 @@ function iniciarMontaje(
     ocultarBandejaComponentes();
 
     return;
-
   }
-
 
   const workspace =
     targetEntity.querySelector(
       ".mesa-virtual"
     );
 
-
   if (!workspace) return;
-
 
   montajeActivo = {
 
@@ -713,17 +641,26 @@ function iniciarMontaje(
 
     contenedor: contenedor,
 
+    /*
+      Capa donde se crean las lámparas interactivas.
+      Se mantiene apuntando al contenedor existente
+      para no modificar la estructura actual del AR.
+    */
+    lamparasLayer: contenedor,
+
     lamparas: new Map(),
 
-    slots: config.slots
+    slots: config.slots,
+
+    /*
+      Indica explícitamente que existe un montaje
+      interactivo activo.
+    */
+    activo: true
 
   };
 
-
-  mostrarBandejaComponentes(
-    tipo
-  );
-
+  mostrarBandejaComponentes(tipo);
 }
 
 
@@ -740,66 +677,50 @@ function obtenerPuntoEnWorkspace(
     !montajeActivo ||
     !montajeActivo.workspace
   ) {
-
     return null;
-
   }
-
 
   const scene =
     document.getElementById(
       "escena-ar"
     );
 
-
   if (
     !scene ||
     !scene.renderer ||
     !scene.camera
   ) {
-
     return null;
-
   }
-
 
   const canvas =
     scene.renderer.domElement;
 
-
   const rect =
     canvas.getBoundingClientRect();
-
 
   if (
     !rect.width ||
     !rect.height
   ) {
-
     return null;
-
   }
-
 
   punteroAR.x =
     ((clientX - rect.left) /
       rect.width) * 2 - 1;
 
-
   punteroAR.y =
     -((clientY - rect.top) /
       rect.height) * 2 + 1;
-
 
   raycasterAR.setFromCamera(
     punteroAR,
     scene.camera
   );
 
-
   const workspace =
     montajeActivo.workspace;
-
 
   const normal =
     new THREE.Vector3(
@@ -808,22 +729,18 @@ function obtenerPuntoEnWorkspace(
       0
     );
 
-
   const quaternion =
     new THREE.Quaternion();
-
 
   workspace.object3D.getWorldQuaternion(
     quaternion
   );
-
 
   normal
     .applyQuaternion(
       quaternion
     )
     .normalize();
-
 
   const puntoSuperficie =
     new THREE.Vector3(
@@ -832,17 +749,14 @@ function obtenerPuntoEnWorkspace(
       0
     );
 
-
   workspace.object3D.localToWorld(
     puntoSuperficie
   );
-
 
   planoAR.setFromNormalAndCoplanarPoint(
     normal,
     puntoSuperficie
   );
-
 
   if (
     !raycasterAR.ray.intersectPlane(
@@ -850,27 +764,19 @@ function obtenerPuntoEnWorkspace(
       puntoAR
     )
   ) {
-
     return null;
-
   }
-
 
   const local =
     puntoAR.clone();
-
 
   workspace.object3D.worldToLocal(
     local
   );
 
-
-  local.y =
-    0.08;
-
+  local.y = 0.08;
 
   return local;
-
 }
 
 
@@ -885,21 +791,23 @@ function iniciarArrastreLampara(
 
   if (!montajeActivo) return;
 
-  if (arrastreActivo) return;
+  if (
+    montajeActivo.activo === false
+  ) {
+    return;
+  }
 
+  if (arrastreActivo) return;
 
   event.preventDefault();
 
-
   const key =
     String(id);
-
 
   let lampara =
     montajeActivo.lamparas.get(
       key
     );
-
 
   if (!lampara) {
 
@@ -908,25 +816,31 @@ function iniciarArrastreLampara(
         id
       );
 
+    /*
+      Usamos lamparasLayer si existe.
+      Si por alguna razón no existe, conservamos
+      el contenedor original como respaldo.
+    */
+    const capa =
+      montajeActivo.lamparasLayer ||
+      montajeActivo.contenedor;
 
-    montajeActivo.contenedor.appendChild(
+    capa.appendChild(
       lampara
     );
-
 
     montajeActivo.lamparas.set(
       key,
       lampara
     );
-
   }
 
-
-  /* Al volver a tomarla, deja de ocupar su zócalo. */
+  /*
+    Al volver a tomarla, deja de ocupar su zócalo.
+  */
 
   lampara.dataset.slotId =
     "";
-
 
   arrastreActivo = {
 
@@ -939,6 +853,10 @@ function iniciarArrastreLampara(
 
   };
 
+  /*
+    Intentamos mantener el pointer activo durante
+    todo el arrastre.
+  */
 
   if (
     event.currentTarget &&
@@ -951,21 +869,19 @@ function iniciarArrastreLampara(
         event.pointerId
       );
 
+    } catch (e) {
+
+      /*
+        Algunos navegadores no permiten
+        pointer capture.
+      */
+
     }
-
-    catch (e) {
-
-      /* Algunos navegadores no permiten pointer capture. */
-
-    }
-
   }
-
 
   moverLampara(
     event
   );
-
 }
 
 
@@ -979,16 +895,12 @@ function moverLampara(
 
   if (!arrastreActivo) return;
 
-
   if (
     event.pointerId !==
     arrastreActivo.pointerId
   ) {
-
     return;
-
   }
-
 
   const punto =
     obtenerPuntoEnWorkspace(
@@ -996,15 +908,12 @@ function moverLampara(
       event.clientY
     );
 
-
   if (!punto) return;
-
 
   arrastreActivo.lampara.setAttribute(
     "position",
     `${punto.x} ${punto.y} ${punto.z}`
   );
-
 }
 
 
@@ -1018,17 +927,13 @@ function finalizarArrastreLampara(
 
   if (!arrastreActivo) return;
 
-
   if (
     event &&
     event.pointerId !==
     arrastreActivo.pointerId
   ) {
-
     return;
-
   }
-
 
   if (!montajeActivo) {
 
@@ -1036,25 +941,19 @@ function finalizarArrastreLampara(
       null;
 
     return;
-
   }
-
 
   const lampara =
     arrastreActivo.lampara;
 
-
   const pos =
     lampara.object3D.position;
-
 
   let mejorSlot =
     null;
 
-
   let mejorDistancia =
     Infinity;
-
 
   montajeActivo.slots.forEach(
     (slot) => {
@@ -1074,24 +973,19 @@ function finalizarArrastreLampara(
           }
         );
 
-
       if (ocupada) return;
-
 
       const dx =
         pos.x - slot.x;
 
-
       const dz =
         pos.z - slot.z;
-
 
       const distancia =
         Math.sqrt(
           dx * dx +
           dz * dz
         );
-
 
       if (
         distancia <
@@ -1109,8 +1003,9 @@ function finalizarArrastreLampara(
     }
   );
 
-
-  /* Radio de aceptación de la posición. */
+  /*
+    Radio de aceptación de la posición.
+  */
 
   if (
     mejorSlot &&
@@ -1122,26 +1017,20 @@ function finalizarArrastreLampara(
       `${mejorSlot.x} 0.08 ${mejorSlot.z}`
     );
 
-
     lampara.dataset.slotId =
       mejorSlot.id;
 
-  }
-
-  else {
+  } else {
 
     lampara.dataset.slotId =
       "";
 
   }
 
-
   arrastreActivo =
     null;
 
-
   comprobarMontaje();
-
 }
 
 
@@ -1152,7 +1041,6 @@ function finalizarArrastreLampara(
 function encenderLamparas() {
 
   if (!montajeActivo) return;
-
 
   montajeActivo.lamparas.forEach(
     (lampara) => {
@@ -1174,7 +1062,6 @@ function encenderLamparas() {
 
     }
   );
-
 }
 
 
@@ -1185,7 +1072,6 @@ function encenderLamparas() {
 function apagarLamparas() {
 
   if (!montajeActivo) return;
-
 
   montajeActivo.lamparas.forEach(
     (lampara) => {
@@ -1207,7 +1093,6 @@ function apagarLamparas() {
 
     }
   );
-
 }
 
 
@@ -1219,10 +1104,8 @@ function comprobarMontaje() {
 
   if (!montajeActivo) return;
 
-
   const ocupados =
     new Set();
-
 
   montajeActivo.lamparas.forEach(
     (lampara) => {
@@ -1240,7 +1123,6 @@ function comprobarMontaje() {
     }
   );
 
-
   const completo =
     montajeActivo.slots.every(
       (slot) => {
@@ -1252,17 +1134,14 @@ function comprobarMontaje() {
       }
     );
 
-
   const info =
     document.getElementById(
       "panel-info"
     );
 
-
   if (completo) {
 
     encenderLamparas();
-
 
     if (info) {
 
@@ -1275,12 +1154,9 @@ function comprobarMontaje() {
 
     }
 
-  }
-
-  else {
+  } else {
 
     apagarLamparas();
-
 
     if (info) {
 
@@ -1288,9 +1164,7 @@ function comprobarMontaje() {
         `Colocá las dos lámparas en sus posiciones. ${ocupados.size}/2 conectadas.`;
 
     }
-
   }
-
 }
 
 
@@ -1300,93 +1174,144 @@ function comprobarMontaje() {
 
 function configurarArrastreComponentes() {
 
-  const piezas = document.querySelectorAll(".pieza-arrastrable");
+  const piezas =
+    document.querySelectorAll(
+      ".pieza-arrastrable"
+    );
 
-  piezas.forEach((pieza) => {
+  piezas.forEach(
+    (pieza) => {
 
-    /* Evita que el navegador interprete el toque
-       como selección, desplazamiento o gesto */
-    pieza.style.touchAction = "none";
-    pieza.style.userSelect = "none";
-    pieza.style.webkitUserSelect = "none";
+      /*
+        Evita que el navegador interprete el toque
+        como selección, desplazamiento o gesto.
+      */
 
-    pieza.addEventListener("pointerdown", (event) => {
+      pieza.style.touchAction =
+        "none";
 
-      event.preventDefault();
-      event.stopPropagation();
+      pieza.style.userSelect =
+        "none";
 
-      const id = pieza.dataset.lampId;
+      pieza.style.webkitUserSelect =
+        "none";
 
-      if (!id) return;
+      pieza.style.webkitTouchCallout =
+        "none";
 
-      iniciarArrastreLampara(id, event);
+      pieza.addEventListener(
+        "pointerdown",
+        (event) => {
 
-    }, { passive: false });
+          event.preventDefault();
+          event.stopPropagation();
 
-  });
+          const id =
+            pieza.dataset.lampId;
+
+          if (!id) return;
+
+          iniciarArrastreLampara(
+            id,
+            event
+          );
+
+        },
+        {
+          passive: false
+        }
+      );
+
+    }
+  );
 
 
   /* ==========================================================
      MOVER LA LÁMPARA
      ========================================================== */
 
-  window.addEventListener("pointermove", (event) => {
+  window.addEventListener(
+    "pointermove",
+    (event) => {
 
-    if (!arrastreActivo) return;
+      if (!arrastreActivo) return;
 
-    if (
-      event.pointerId !== arrastreActivo.pointerId
-    ) {
-      return;
+      if (
+        event.pointerId !==
+        arrastreActivo.pointerId
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      moverLampara(
+        event
+      );
+
+    },
+    {
+      passive: false
     }
-
-    event.preventDefault();
-
-    moverLampara(event);
-
-  }, { passive: false });
+  );
 
 
   /* ==========================================================
      SOLTAR LA LÁMPARA
      ========================================================== */
 
-  window.addEventListener("pointerup", (event) => {
+  window.addEventListener(
+    "pointerup",
+    (event) => {
 
-    if (!arrastreActivo) return;
+      if (!arrastreActivo) return;
 
-    if (
-      event.pointerId !== arrastreActivo.pointerId
-    ) {
-      return;
+      if (
+        event.pointerId !==
+        arrastreActivo.pointerId
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      finalizarArrastreLampara(
+        event
+      );
+
+    },
+    {
+      passive: false
     }
-
-    event.preventDefault();
-
-    finalizarArrastreLampara(event);
-
-  }, { passive: false });
+  );
 
 
   /* ==========================================================
      CANCELAR ARRASTRE
      ========================================================== */
 
-  window.addEventListener("pointercancel", (event) => {
+  window.addEventListener(
+    "pointercancel",
+    (event) => {
 
-    if (!arrastreActivo) return;
+      if (!arrastreActivo) return;
 
-    if (
-      event.pointerId !== arrastreActivo.pointerId
-    ) {
-      return;
+      if (
+        event.pointerId !==
+        arrastreActivo.pointerId
+      ) {
+        return;
+      }
+
+      finalizarArrastreLampara(
+        event
+      );
+
     }
-
-    finalizarArrastreLampara(event);
-
-  });
-
+  );
 }
+
+
 /* ============================================================
    INFORMACIÓN DE CIRCUITOS
    ============================================================ */
@@ -1412,7 +1337,6 @@ function obtenerCircuito(
         circuitoBasico()
 
     };
-
   }
 
 
@@ -1433,7 +1357,6 @@ function obtenerCircuito(
         circuitoSerie()
 
     };
-
   }
 
 
@@ -1454,12 +1377,10 @@ function obtenerCircuito(
         circuitoParalelo()
 
     };
-
   }
 
 
   return null;
-
 }
 
 
@@ -1474,12 +1395,10 @@ function mostrarCircuitoEnTarget(
 
   if (!targetEntity) return;
 
-
   const contenedor =
     targetEntity.querySelector(
       ".componentes-target"
     );
-
 
   if (!contenedor) {
 
@@ -1489,9 +1408,7 @@ function mostrarCircuitoEnTarget(
     );
 
     return;
-
   }
-
 
   if (
     montajeActivo &&
@@ -1504,22 +1421,17 @@ function mostrarCircuitoEnTarget(
 
     arrastreActivo =
       null;
-
   }
-
 
   const circuito =
     obtenerCircuito(
       tipo
     );
 
-
   if (!circuito) return;
-
 
   contenedor.innerHTML =
     circuito.html;
-
 
   if (
     tipo === "serie" ||
@@ -1532,9 +1444,7 @@ function mostrarCircuitoEnTarget(
       contenedor
     );
 
-  }
-
-  else {
+  } else {
 
     montajeActivo =
       null;
@@ -1543,19 +1453,15 @@ function mostrarCircuitoEnTarget(
       null;
 
     ocultarBandejaComponentes();
-
   }
-
 
   circuitoActual =
     tipo;
-
 
   const info =
     document.getElementById(
       "panel-info"
     );
-
 
   if (info) {
 
@@ -1568,15 +1474,12 @@ function mostrarCircuitoEnTarget(
         ? "Elegí una lámpara de la bandeja lateral y arrastrala con el dedo hasta su posición."
 
         : circuito.descripcion;
-
   }
-
 
   const estado =
     document.getElementById(
       "estado-ar"
     );
-
 
   if (estado) {
 
@@ -1584,12 +1487,9 @@ function mostrarCircuitoEnTarget(
       "detectado"
     );
 
-
     estado.innerText =
       `Marcador detectado: ${circuito.nombre}.`;
-
   }
-
 }
 
 
@@ -1598,68 +1498,133 @@ function mostrarCircuitoEnTarget(
    ============================================================ */
 
 function configurarTargets() {
+
   const configuraciones = [
+
     {
       id: "target-basico",
       tipo: "basico"
     },
+
     {
       id: "target-serie",
       tipo: "serie"
     },
+
     {
       id: "target-paralelo",
       tipo: "paralelo"
     }
+
   ];
 
-  configuraciones.forEach((config) => {
-    const target = document.getElementById(config.id);
+  configuraciones.forEach(
+    (config) => {
 
-    if (!target) {
-      console.warn("No se encontró el target:", config.id);
-      return;
+      const target =
+        document.getElementById(
+          config.id
+        );
+
+      if (!target) {
+
+        console.warn(
+          "No se encontró el target:",
+          config.id
+        );
+
+        return;
+      }
+
+      target.addEventListener(
+        "targetFound",
+        () => {
+
+          console.log(
+            "Marcador encontrado:",
+            config.tipo
+          );
+
+          const boton =
+            document.getElementById(
+              "btn-iniciar-ar"
+            );
+
+          if (boton) {
+            boton.style.display =
+              "none";
+          }
+
+          const info =
+            document.getElementById(
+              "panel-info"
+            );
+
+          if (info) {
+            info.style.display =
+              "block";
+          }
+
+          const estado =
+            document.getElementById(
+              "estado-ar"
+            );
+
+          if (estado) {
+            estado.style.display =
+              "block";
+          }
+
+          mostrarCircuitoEnTarget(
+            config.tipo,
+            target
+          );
+
+        }
+      );
+
+
+      target.addEventListener(
+        "targetLost",
+        () => {
+
+          console.log(
+            "Marcador perdido:",
+            config.tipo
+          );
+
+          if (
+            montajeActivo &&
+            montajeActivo.target ===
+            target
+          ) {
+
+            arrastreActivo =
+              null;
+
+            ocultarBandejaComponentes();
+          }
+
+          const estado =
+            document.getElementById(
+              "estado-ar"
+            );
+
+          if (estado) {
+
+            estado.classList.remove(
+              "detectado"
+            );
+
+            estado.innerText =
+              "Marcador fuera de vista. Volvé a enfocarlo para continuar.";
+          }
+
+        }
+      );
+
     }
-
-    target.addEventListener("targetFound", () => {
-      console.log("Marcador encontrado:", config.tipo);
-
-      // Ocultar el botón de iniciar si la cámara ya detectó el marcador
-      const boton = document.getElementById("btn-iniciar-ar");
-      if (boton) {
-        boton.style.display = "none";
-      }
-
-      // Asegurar que las leyendas superiores sean visibles
-      const info = document.getElementById("panel-info");
-      if (info) {
-        info.style.display = "block";
-      }
-
-      const estado = document.getElementById("estado-ar");
-      if (estado) {
-        estado.style.display = "block";
-      }
-
-      mostrarCircuitoEnTarget(config.tipo, target);
-    });
-
-    target.addEventListener("targetLost", () => {
-      console.log("Marcador perdido:", config.tipo);
-
-      if (montajeActivo && montajeActivo.target === target) {
-        arrastreActivo = null;
-        ocultarBandejaComponentes();
-      }
-
-      const estado = document.getElementById("estado-ar");
-
-      if (estado) {
-        estado.classList.remove("detectado");
-        estado.innerText = "Marcador fuera de vista. Volvé a enfocarlo para continuar.";
-      }
-    });
-  });
+  );
 }
 
 
@@ -1674,9 +1639,20 @@ async function iniciarAR() {
       "escena-ar"
     );
 
-  // Asegura el fondo transparente en el renderizador de Three.js / A-Frame
-  if (scene && scene.renderer) {
-    scene.renderer.setClearColor(0x000000, 0);
+  /*
+    Asegura el fondo transparente en el
+    renderizador de Three.js / A-Frame.
+  */
+
+  if (
+    scene &&
+    scene.renderer
+  ) {
+
+    scene.renderer.setClearColor(
+      0x000000,
+      0
+    );
   }
 
   const boton =
@@ -1694,7 +1670,6 @@ async function iniciarAR() {
       "estado-ar"
     );
 
-
   if (!scene) {
 
     console.error(
@@ -1702,9 +1677,7 @@ async function iniciarAR() {
     );
 
     return;
-
   }
-
 
   try {
 
@@ -1715,17 +1688,13 @@ async function iniciarAR() {
 
       boton.innerText =
         "Iniciando cámara...";
-
     }
-
 
     if (info) {
 
       info.innerText =
         "Solicitando acceso a la cámara...";
-
     }
-
 
     if (estado) {
 
@@ -1733,44 +1702,34 @@ async function iniciarAR() {
         "activo"
       );
 
-
       estado.innerText =
         "Iniciando cámara. Apuntá al marcador cuando aparezca la imagen real.";
-
     }
-
 
     const mindarSystem =
       scene.systems[
         "mindar-image-system"
       ];
 
-
     if (!mindarSystem) {
 
       throw new Error(
         "No se encontró el sistema MindAR."
       );
-
     }
 
-
     await mindarSystem.start();
-
 
     if (boton) {
 
       boton.style.display =
         "none";
-
     }
-
 
     if (info) {
 
       info.innerText =
         "Cámara activa. Apuntá a uno de los tres marcadores.";
-
     }
 
   }
@@ -1782,7 +1741,6 @@ async function iniciarAR() {
       error
     );
 
-
     if (boton) {
 
       boton.disabled =
@@ -1790,9 +1748,7 @@ async function iniciarAR() {
 
       boton.innerText =
         "📷 Activar cámara";
-
     }
-
 
     if (estado) {
 
@@ -1800,27 +1756,20 @@ async function iniciarAR() {
         "activo"
       );
 
-
       estado.classList.add(
         "error"
       );
 
-
       estado.innerText =
         "No se pudo iniciar la cámara. Verificá el permiso de cámara del navegador.";
-
     }
-
 
     if (info) {
 
       info.innerText =
         "No se pudo iniciar la cámara.";
-
     }
-
   }
-
 }
 
 
@@ -1838,12 +1787,10 @@ document.addEventListener(
 
     limpiarMesa();
 
-
     const boton =
       document.getElementById(
         "btn-iniciar-ar"
       );
-
 
     if (boton) {
 
