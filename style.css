@@ -69,10 +69,7 @@ canvas.a-canvas {
 }
 
 /* Asegurar que la bandeja de lámparas e interfaz queden por encima del canvas 3D */
-#bandeja-componentes {
-  z-index: 10000 !important;
-}
-
-#bandeja-componentes.visible {
-  display: flex !important;
+#bandeja-componentes,
+#bandeja-componentes .pieza-arrastrable {
+    touch-action: none;
 }
